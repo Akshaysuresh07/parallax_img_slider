@@ -1,13 +1,25 @@
-import React from 'react'
+import React, { useState, useEffect } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
 import Button from 'react-bootstrap/Button';
 
 const Titles = () => {
-    return (
-        <div >
+    const [opacity, setOpacity] = useState(1);
 
+    useEffect(() => {
+        const handleScroll = () => {
+            let scrollPosition = window.scrollY;
+            let newOpacity = 1 - scrollPosition / 200;
+            setOpacity(newOpacity > 0 ? newOpacity : 0);
+        };
+
+        window.addEventListener('scroll', handleScroll);
+        return () => window.removeEventListener('scroll', handleScroll);
+    }, []);
+
+    return (
+        <div style={{ opacity: opacity }}>
             <Container>
                 <Row>
                     <Col></Col>
@@ -19,12 +31,10 @@ const Titles = () => {
                             <Button style={{ background: '#0D9276' }}>Order Online</Button>
                         </div>
                     </Col>
-
                 </Row>
-
             </Container>
         </div>
     )
 }
 
-export default Titles
+export default Titles;
